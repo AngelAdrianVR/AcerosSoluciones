@@ -1,12 +1,11 @@
 <template>
     <AppLayout title="Productos">
-        <main class="px-2 md:px-10 pt-1 pb-16">
-            <h1 class="font-bold my-3 ml-4 text-lg">{{ products.length }} productos</h1>
+        <main class="px-4 md:px-12 lg:w-3/4 mx-auto pt-8 pb-16">
             <section class="md:flex justify-between items-center">
                 <article class="flex items-center space-x-5 lg:w-1/3">
                     <div class="mb-3 md:mb-0 w-full relative">
                         <input v-model="searchQuery" @keydown.enter="handleSearch" class="input w-full pl-9"
-                            placeholder="Buscar por nombre, categoria o número de parte del fabricante" type="search"
+                            placeholder="Buscar por nombre o categoría" type="search"
                             ref="searchInput" />
                         <i class="fa-solid fa-magnifying-glass text-xs text-gray99 absolute top-[10px] left-4"></i>
                     </div>
@@ -14,8 +13,9 @@
                         {{ searchedWord }}
                     </el-tag>
                 </article>
-                <PrimaryButton>Nuevo producto</PrimaryButton>
+                <PrimaryButton @click="$inertia.visit(route('products.create'))">Nuevo producto</PrimaryButton>
             </section>
+            <h1 class="font-bold my-3 ml-4 text-[#717171] text-sm">{{ products.length }} productos</h1>
         </main>
     </AppLayout>
 </template>
@@ -27,7 +27,10 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 export default {
 data() {
     return {
-
+        // buscador
+        searchQuery: null,
+        searchedWord: null,
+        search: null
     }
 },
 components:{
@@ -35,10 +38,27 @@ components:{
     AppLayout
 },
 props:{
-
+products: Object
 },
 methods:{
-
+    inputFocus() {
+        this.$nextTick(() => {
+            this.$refs.searchInput.focus();
+        });
+    },
+    handleSearch() {
+        this.search = this.searchQuery;
+        this.searchedWord = this.searchQuery;
+        this.searchQuery = null;
+    },
+    closedTag() {
+        this.search = null;
+        this.searchedWord = null;
+    },
+},
+mounted() {
+    //enfoca el input de busqueda
+    this.inputFocus();
 }
 }
 </script>

@@ -29,25 +29,19 @@ Route::get('/', function () {
 
 
 //renderiza el dashboard cuando se loguea
-// Route::middleware([
-//     'auth:sanctum',
-//     config('jetstream.auth_session'),
-//     'verified',
-// ])->group(function () {
-//     Route::get('/dashboard', function () {
-//         return Inertia::render('Dashboard');
-//     })->name('dashboard');
-// });
-
-
-//renderiza el dashboard cuando se loguea
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    return Inertia('Product/index');
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
 });
+
+
+//redirecciona del dashboard a productos. comentar cuando la pagina tenga dashboard
+Route::redirect('/dashboard', 'products');
 
 
 //Product routes -------------------------------------------------------
