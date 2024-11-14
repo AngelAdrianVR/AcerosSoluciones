@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -26,12 +28,33 @@ Route::get('/', function () {
 // })->name('services');
 
 
+//renderiza el dashboard cuando se loguea
+// Route::middleware([
+//     'auth:sanctum',
+//     config('jetstream.auth_session'),
+//     'verified',
+// ])->group(function () {
+//     Route::get('/dashboard', function () {
+//         return Inertia::render('Dashboard');
+//     })->name('dashboard');
+// });
+
+
+//renderiza el dashboard cuando se loguea
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    return Inertia('Product/index');
 });
+
+
+//Product routes -------------------------------------------------------
+// ---------------------------------------------------------------------
+Route::resource('products', ProductController::class);
+
+
+//category routes ------------------------------------------------------
+// ---------------------------------------------------------------------
+Route::resource('categories', CategoryController::class);
