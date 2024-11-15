@@ -201,7 +201,7 @@ html {
                 <slot />
             </main>
 
-            <footer class="bg-[#121212] text-white">
+            <footer class="bg-[#121212] text-white mt-10">
                 <section class="mx-16 pt-6 flex items-center justify-between">
                     <figure>
                         <img src="@/../../public/images/logo_footer.png"
