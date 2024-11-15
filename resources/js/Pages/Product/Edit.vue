@@ -18,10 +18,18 @@
                         @imagen="this.form.image_cover2 = $event; form.clearedCover2 = false"
                         @cleared="form.clearedCover2 = true"
                     />
+                    <InputFilePreview
+                        v-show="currentImage == 3"
+                        :imageUrl="getMediaUrl('cover3')"
+                        @imagen="this.form.image_cover3 = $event; form.clearedCover3 = false"
+                        @cleared="form.clearedCover3 = true"
+                    />
                     <p class="text-center mt-2">
-                        <i @click="currentImage = currentImage - 1" v-if="currentImage == 2" class="fa-solid fa-angle-left text-xs mr-2 cursor-pointer p-1"></i>
-                        Imagen {{ currentImage }} de 2
-                        <i @click="currentImage = currentImage + 1" v-if="currentImage == 1" class="fa-solid fa-angle-right text-xs ml-2 cursor-pointer p-1"></i>
+                        <!-- Botón de retroceso (izquierda) -->
+                        <i @click="currentImage = currentImage - 1" v-if="currentImage > 1" class="fa-solid fa-angle-left text-xs mr-2 cursor-pointer p-1"></i>
+                        Imagen {{ currentImage }} de 3
+                        <!-- Botón de avance (derecha) -->
+                        <i @click="currentImage = currentImage + 1" v-if="currentImage < 3" class="fa-solid fa-angle-right text-xs ml-2 cursor-pointer p-1"></i>
                     </p>
                 </div>
 
@@ -44,7 +52,7 @@
                     </div>
 
                     <div class="mt-3">
-                        <InputLabel value="Nombre del producto*" class="ml-3 mb-1" />
+                        <InputLabel value="Descripción del producto*" class="ml-3 mb-1" />
                         <el-input
                             v-model="form.description"
                             maxlength="250"
@@ -72,8 +80,22 @@
                     </div>
                 </div>
             </div>
-            <div class="text-right pt-5 lg:mt-0">
-                <PrimaryButton :disabled="form.processing" @click="update">Publicar</PrimaryButton>
+            <div class="flex justify-end items-center space-x-2 mt-7 lg:mt-0">
+                <el-popconfirm
+                confirm-button-text="Si"
+                cancel-button-text="No"
+                icon-color="#D90537"
+                title="¿Eliminar?"
+                @confirm="deleteProduct"
+                >
+                <template #reference>
+                    <i
+                    @click.stop=""
+                    class="fa-regular fa-trash-can text-sm text-primary cursor-pointer py-1 px-2 rounded-full border border-gray-300"
+                    ></i>
+                </template>
+                </el-popconfirm>
+                <PrimaryButton :disabled="form.processing" @click="update">Guardar cambios</PrimaryButton>
             </div>
         </form>
 
@@ -116,10 +138,12 @@ data() {
         name: this.product.name,
         description: this.product.description,
         category_id: this.product.category_id,
-        image_cover1: this.product.media[0],
-        image_cover2: this.product.media[1],
+        image_cover1: null,
+        image_cover2: null,
+        image_cover3: null,
         clearedCover1: false,
         clearedCover2: false,
+        clearedCover3: false,
     });
 
     const categoryForm = useForm({
@@ -149,15 +173,28 @@ props:{
 },
 methods:{
     update() {
-        this.form.put(route("products.update"), {
-            onSuccess: () => {
-                this.$notify({
-                    title: "Correcto",
-                    message: "",
-                    type: "success",
-                });
-            },
+      if (this.form.image_cover1 != null || this.form.image_cover2 != null || this.form.image_cover3 != null) {
+        this.form.post(route("products.update-with-media", this.product.id), {
+          method: "_put",
+          onSuccess: () => {
+            this.$notify({
+              title: "Correcto",
+              message: "",
+              type: "success",
+            });
+          },
         });
+      } else {
+        this.form.put(route("products.update", this.product.id), {
+          onSuccess: () => {
+            this.$notify({
+              title: "Correcto",
+              message: "",
+              type: "success",
+            });
+          },
+        });
+      }
     },
     storeCategory() {
         this.categoryForm.post(route("categories.store"), {
@@ -170,6 +207,15 @@ methods:{
                 this.showCategoryFormModal = false;
             },
         });
+    },
+    deleteProduct() {
+      this.$inertia.delete(route("products.destroy", this.product.id));
+      this.$notify({
+        title: "Correcto",
+        message: "",
+        type: "success",
+      });
+      this.$inertia.get(route('products.index'));
     },
     getMediaUrl(collectionName) {
         const media = this.product.media.find(img => img.collection_name === collectionName);
