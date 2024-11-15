@@ -15,7 +15,12 @@
                 </article>
                 <PrimaryButton @click="$inertia.visit(route('products.create'))">Nuevo producto</PrimaryButton>
             </section>
-            <h1 class="font-bold my-3 ml-4 text-[#717171] text-sm">{{ products.length }} productos</h1>
+            <h1 class="font-bold mt-7 mb-3 ml-4 text-[#717171] text-sm">{{ products.length }} productos</h1>
+
+            <!-- productos -->
+            <section class="md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                <ProductCard v-for="product in products" :key="product" :product="product" />
+            </section>
         </main>
     </AppLayout>
 </template>
@@ -23,6 +28,7 @@
 <script>
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import ProductCard from '@/Components/MyComponents/Product/ProductCard.vue';
 
 export default {
 data() {
@@ -35,6 +41,7 @@ data() {
 },
 components:{
     PrimaryButton,
+    ProductCard,
     AppLayout
 },
 props:{

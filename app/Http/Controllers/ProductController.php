@@ -10,8 +10,9 @@ class ProductController extends Controller
 {
     public function index()
     {   
-        $products = Product::all();
+        $products = Product::with('media')->get();
 
+        // return $products;
         return inertia('Product/Index', compact('products'));
     }
 
