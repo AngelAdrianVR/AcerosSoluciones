@@ -23,7 +23,9 @@
             </div>
             
             <!-- Estado de carga -->
-            <LoadingLogo v-if="loading" class="mt-4 lg:mt-20" />
+             <div v-if="loading" class="text-center">
+                 <LoadingLogo class="mt-4 lg:mt-20" />
+             </div>
             
             <!-- productos -->
             <section v-else class="md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 space-y-3 md:space-y-0">
