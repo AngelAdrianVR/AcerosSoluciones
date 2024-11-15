@@ -8,10 +8,13 @@
                 <div>
                     <InputFilePreview v-show="currentImage == 1" @imagen="this.form.image_cover1 = $event;" />
                     <InputFilePreview v-show="currentImage == 2" @imagen="this.form.image_cover2 = $event;" />
+                    <InputFilePreview v-show="currentImage == 3" @imagen="this.form.image_cover3 = $event;" />
                     <p class="text-center mt-2">
-                        <i @click="currentImage = currentImage - 1" v-if="currentImage == 2" class="fa-solid fa-angle-left text-xs mr-2 cursor-pointer p-1"></i>
-                        Imagen {{ currentImage }} de 2
-                        <i @click="currentImage = currentImage + 1" v-if="currentImage == 1" class="fa-solid fa-angle-right text-xs ml-2 cursor-pointer p-1"></i>
+                        <!-- Botón de retroceso (izquierda) -->
+                        <i @click="currentImage = currentImage - 1" v-if="currentImage > 1" class="fa-solid fa-angle-left text-xs mr-2 cursor-pointer p-1"></i>
+                        Imagen {{ currentImage }} de 3
+                        <!-- Botón de avance (derecha) -->
+                        <i @click="currentImage = currentImage + 1" v-if="currentImage < 3" class="fa-solid fa-angle-right text-xs ml-2 cursor-pointer p-1"></i>
                     </p>
                 </div>
 
@@ -34,7 +37,7 @@
                     </div>
 
                     <div class="mt-3">
-                        <InputLabel value="Nombre del producto*" class="ml-3 mb-1" />
+                        <InputLabel value="Descripción producto*" class="ml-3 mb-1" />
                         <el-input
                             v-model="form.description"
                             maxlength="250"
@@ -108,6 +111,7 @@ data() {
         category_id: null,
         image_cover1: null,
         image_cover2: null,
+        image_cover3: null,
     });
 
     const categoryForm = useForm({

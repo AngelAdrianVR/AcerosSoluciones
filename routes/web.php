@@ -47,6 +47,8 @@ Route::redirect('/dashboard', 'products');
 //Product routes -------------------------------------------------------
 // ---------------------------------------------------------------------
 Route::resource('products', ProductController::class);
+Route::post('products/update-with-media/{product}', [ProductController::class, 'updateWithMedia'])->name('products.update-with-media');
+Route::post('products/get-matches', [ProductController::class, 'getMatches'])->name('products.get-matches');
 
 
 //category routes ------------------------------------------------------
