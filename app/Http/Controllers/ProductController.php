@@ -67,4 +67,11 @@ class ProductController extends Controller
     {
         return 'eliminado';
     }
+
+    public function getAll()
+    {
+        $items = Product::with(['media'])->get()->take(8);
+
+        return response()->json(compact('items'));
+    }
 }
