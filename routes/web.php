@@ -62,3 +62,4 @@ Route::post('products/get-matches', [ProductController::class, 'getMatches'])->n
 //category routes ------------------------------------------------------
 // ---------------------------------------------------------------------
 Route::resource('categories', CategoryController::class);
+Route::post('categories/massive-delete', [CategoryController::class, 'massiveDelete'])->name('categories.massive-delete');
