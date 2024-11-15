@@ -1,14 +1,29 @@
 <template>
-    <AppLayout title="Nuevo producto">
+    <AppLayout title="Editar producto">
         <Back class="mt-3 md:mt-7 md:mb-4 md:mx-12" />
-        
-        <form @submit.prevent="store" class="lg:w-2/3 mx-auto rounded-xl lg:border-2 border-gray-400 p-5 my-2">
-            <h1 class="text-lg text-center lg:text-left">Agregar producto</h1>
+
+        <form @submit.prevent="update" class="lg:w-2/3 mx-auto rounded-xl lg:border-2 border-gray-400 p-5 my-2">
+            <h1 class="text-lg text-center lg:text-left">Editar producto</h1>
             <div class="lg:grid grid-cols-3 lg:space-x-3 mt-3">
                 <div>
-                    <InputFilePreview v-show="currentImage == 1" @imagen="this.form.image_cover1 = $event;" />
-                    <InputFilePreview v-show="currentImage == 2" @imagen="this.form.image_cover2 = $event;" />
-                    <InputFilePreview v-show="currentImage == 3" @imagen="this.form.image_cover3 = $event;" />
+                    <InputFilePreview
+                        v-show="currentImage == 1"
+                        :imageUrl="getMediaUrl('cover1')"
+                        @imagen="this.form.image_cover1 = $event; form.clearedCover1 = false"
+                        @cleared="form.clearedCover1 = true"
+                    />
+                    <InputFilePreview
+                        v-show="currentImage == 2"
+                        :imageUrl="getMediaUrl('cover2')"
+                        @imagen="this.form.image_cover2 = $event; form.clearedCover2 = false"
+                        @cleared="form.clearedCover2 = true"
+                    />
+                    <InputFilePreview
+                        v-show="currentImage == 3"
+                        :imageUrl="getMediaUrl('cover3')"
+                        @imagen="this.form.image_cover3 = $event; form.clearedCover3 = false"
+                        @cleared="form.clearedCover3 = true"
+                    />
                     <p class="text-center mt-2">
                         <!-- Botón de retroceso (izquierda) -->
                         <i @click="currentImage = currentImage - 1" v-if="currentImage > 1" class="fa-solid fa-angle-left text-xs mr-2 cursor-pointer p-1"></i>
@@ -37,7 +52,7 @@
                     </div>
 
                     <div class="mt-3">
-                        <InputLabel value="Descripción producto*" class="ml-3 mb-1" />
+                        <InputLabel value="Descripción del producto*" class="ml-3 mb-1" />
                         <el-input
                             v-model="form.description"
                             maxlength="250"
@@ -65,8 +80,22 @@
                     </div>
                 </div>
             </div>
-            <div class="text-right pt-5 lg:mt-0">
-                <PrimaryButton :disabled="form.processing" @click="store">Publicar</PrimaryButton>
+            <div class="flex justify-end items-center space-x-2 mt-7 lg:mt-0">
+                <el-popconfirm
+                confirm-button-text="Si"
+                cancel-button-text="No"
+                icon-color="#D90537"
+                title="¿Eliminar?"
+                @confirm="deleteProduct"
+                >
+                <template #reference>
+                    <i
+                    @click.stop=""
+                    class="fa-regular fa-trash-can text-sm text-primary cursor-pointer py-1 px-2 rounded-full border border-gray-300"
+                    ></i>
+                </template>
+                </el-popconfirm>
+                <PrimaryButton :disabled="form.processing" @click="update">Guardar cambios</PrimaryButton>
             </div>
         </form>
 
@@ -106,12 +135,15 @@ import { useForm } from '@inertiajs/vue3';
 export default {
 data() {
     const form = useForm({
-        name: null,
-        description: null,
-        category_id: null,
+        name: this.product.name,
+        description: this.product.description,
+        category_id: this.product.category_id,
         image_cover1: null,
         image_cover2: null,
         image_cover3: null,
+        clearedCover1: false,
+        clearedCover2: false,
+        clearedCover3: false,
     });
 
     const categoryForm = useForm({
@@ -136,19 +168,33 @@ components:{
     Back,
 },
 props:{
+    product: Object,
     categories: Array
 },
 methods:{
-    store() {
-        this.form.post(route("products.store"), {
-            onSuccess: () => {
-                this.$notify({
-                    title: "Correcto",
-                    message: "",
-                    type: "success",
-                });
-            },
+    update() {
+      if (this.form.image_cover1 != null || this.form.image_cover2 != null || this.form.image_cover3 != null) {
+        this.form.post(route("products.update-with-media", this.product.id), {
+          method: "_put",
+          onSuccess: () => {
+            this.$notify({
+              title: "Correcto",
+              message: "",
+              type: "success",
+            });
+          },
         });
+      } else {
+        this.form.put(route("products.update", this.product.id), {
+          onSuccess: () => {
+            this.$notify({
+              title: "Correcto",
+              message: "",
+              type: "success",
+            });
+          },
+        });
+      }
     },
     storeCategory() {
         this.categoryForm.post(route("categories.store"), {
@@ -161,6 +207,19 @@ methods:{
                 this.showCategoryFormModal = false;
             },
         });
+    },
+    deleteProduct() {
+      this.$inertia.delete(route("products.destroy", this.product.id));
+      this.$notify({
+        title: "Correcto",
+        message: "",
+        type: "success",
+      });
+      this.$inertia.get(route('products.index'));
+    },
+    getMediaUrl(collectionName) {
+        const media = this.product.media.find(img => img.collection_name === collectionName);
+        return media ? media.original_url : null;
     },
 }
 }
