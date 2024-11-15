@@ -1,13 +1,23 @@
 <template>
-    <AppLayout title="Nuevo producto">
+    <AppLayout title="Editar producto">
         <Back class="mt-3 md:mt-7 md:mb-4 md:mx-12" />
-        
-        <form @submit.prevent="store" class="lg:w-2/3 mx-auto rounded-xl lg:border-2 border-gray-400 p-5 my-2">
-            <h1 class="text-lg text-center lg:text-left">Agregar producto</h1>
+
+        <form @submit.prevent="update" class="lg:w-2/3 mx-auto rounded-xl lg:border-2 border-gray-400 p-5 my-2">
+            <h1 class="text-lg text-center lg:text-left">Editar producto</h1>
             <div class="lg:grid grid-cols-3 lg:space-x-3 mt-3">
                 <div>
-                    <InputFilePreview v-show="currentImage == 1" @imagen="this.form.image_cover1 = $event;" />
-                    <InputFilePreview v-show="currentImage == 2" @imagen="this.form.image_cover2 = $event;" />
+                    <InputFilePreview
+                        v-show="currentImage == 1"
+                        :imageUrl="getMediaUrl('cover1')"
+                        @imagen="this.form.image_cover1 = $event; form.clearedCover1 = false"
+                        @cleared="form.clearedCover1 = true"
+                    />
+                    <InputFilePreview
+                        v-show="currentImage == 2"
+                        :imageUrl="getMediaUrl('cover2')"
+                        @imagen="this.form.image_cover2 = $event; form.clearedCover2 = false"
+                        @cleared="form.clearedCover2 = true"
+                    />
                     <p class="text-center mt-2">
                         <i @click="currentImage = currentImage - 1" v-if="currentImage == 2" class="fa-solid fa-angle-left text-xs mr-2 cursor-pointer p-1"></i>
                         Imagen {{ currentImage }} de 2
@@ -63,7 +73,7 @@
                 </div>
             </div>
             <div class="text-right pt-5 lg:mt-0">
-                <PrimaryButton :disabled="form.processing" @click="store">Publicar</PrimaryButton>
+                <PrimaryButton :disabled="form.processing" @click="update">Publicar</PrimaryButton>
             </div>
         </form>
 
@@ -103,11 +113,13 @@ import { useForm } from '@inertiajs/vue3';
 export default {
 data() {
     const form = useForm({
-        name: null,
-        description: null,
-        category_id: null,
-        image_cover1: null,
-        image_cover2: null,
+        name: this.product.name,
+        description: this.product.description,
+        category_id: this.product.category_id,
+        image_cover1: this.product.media[0],
+        image_cover2: this.product.media[1],
+        clearedCover1: false,
+        clearedCover2: false,
     });
 
     const categoryForm = useForm({
@@ -132,11 +144,12 @@ components:{
     Back,
 },
 props:{
+    product: Object,
     categories: Array
 },
 methods:{
-    store() {
-        this.form.post(route("products.store"), {
+    update() {
+        this.form.put(route("products.update"), {
             onSuccess: () => {
                 this.$notify({
                     title: "Correcto",
@@ -157,6 +170,10 @@ methods:{
                 this.showCategoryFormModal = false;
             },
         });
+    },
+    getMediaUrl(collectionName) {
+        const media = this.product.media.find(img => img.collection_name === collectionName);
+        return media ? media.original_url : null;
     },
 }
 }
