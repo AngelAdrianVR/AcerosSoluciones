@@ -5,8 +5,7 @@
                 <article class="flex items-center space-x-5 md:w-1/2 lg:w-1/3">
                     <div class="mb-3 md:mb-0 w-full relative">
                         <input v-model="searchQuery" @keydown.enter="handleSearch" class="input w-full pl-9"
-                            placeholder="Buscar por nombre o categoría" type="search"
-                            ref="searchInput" />
+                            placeholder="Buscar por nombre o categoría" type="search" ref="searchInput" />
                         <i class="fa-solid fa-magnifying-glass text-xs text-gray99 absolute top-[10px] left-4"></i>
                     </div>
                     <el-tag @close="closedTag" v-if="searchedWord" closable type="primary">
@@ -21,13 +20,16 @@
             <div class="overflow-auto mb-2">
                 <PaginationWithNoMeta v-if="!searchedWord" :pagination="products" class="py-2" />
             </div>
-            
+
             <!-- Estado de carga -->
-            <LoadingLogo v-if="loading" class="mt-4 lg:mt-20" />
-            
+            <div v-if="loading" class="text-center">
+                <LoadingLogo class="mt-4 lg:mt-20" />
+            </div>
+
             <!-- productos -->
             <section v-else class="md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 space-y-3 md:space-y-0">
-                <ProductCard @product-deleted="removeProductDeleted" v-for="product in filteredProducts.data" :key="product" :product="product" />
+                <ProductCard @product-deleted="removeProductDeleted" v-for="product in filteredProducts.data"
+                    :key="product" :product="product" />
             </section>
         </main>
     </AppLayout>
@@ -41,65 +43,65 @@ import LoadingLogo from "@/Components/MyComponents/LoadingLogo.vue";
 import AppLayout from '@/Layouts/AppLayout.vue';
 
 export default {
-data() {
-    return {
-        // buscador
-        searchQuery: null,
-        searchedWord: null,
+    data() {
+        return {
+            // buscador
+            searchQuery: null,
+            searchedWord: null,
 
-        //general
-        filteredProducts: this.products,
-        loading: false,
-    }
-},
-components:{
-    PaginationWithNoMeta,
-    PrimaryButton,
-    LoadingLogo,
-    ProductCard,
-    AppLayout
-},
-props:{
-products: Object,
-totalProducts: Number,
-},
-methods:{
-    inputFocus() {
-        this.$nextTick(() => {
-            this.$refs.searchInput.focus();
-        });
-    },
-    async handleSearch() {
-        this.loading = true;
-        this.searchedWord = this.searchQuery;
-        this.searchQuery = null;
-        try {
-            const response = await axios.post(route('products.get-matches', { query: this.searchedWord }));
-            if (response.status === 200) {
-                this.filteredProducts = response.data.items;
-            }
-        } catch (error) {
-            console.log(error);
-            this.$message({
-                type: 'error',
-                message: error
-            });
-
-        } finally {
-            this.loading = false;
+            //general
+            filteredProducts: this.products,
+            loading: false,
         }
     },
-    closedTag() {
-        this.searchedWord = null;
-        this.filteredProducts = this.products;
+    components: {
+        PaginationWithNoMeta,
+        PrimaryButton,
+        LoadingLogo,
+        ProductCard,
+        AppLayout
     },
-    removeProductDeleted(item) {
-        this.products = this.products.filter(product => product.id !== item.id);
+    props: {
+        products: Object,
+        totalProducts: Number,
+    },
+    methods: {
+        inputFocus() {
+            this.$nextTick(() => {
+                this.$refs.searchInput.focus();
+            });
+        },
+        closedTag() {
+            this.searchedWord = null;
+            this.filteredProducts = this.products;
+        },
+        removeProductDeleted(item) {
+            this.products = this.products.filter(product => product.id !== item.id);
+        },
+        async handleSearch() {
+            this.loading = true;
+            this.searchedWord = this.searchQuery;
+            this.searchQuery = null;
+            try {
+                const response = await axios.post(route('products.get-matches', { query: this.searchedWord }));
+                if (response.status === 200) {
+                    this.filteredProducts = response.data.items;
+                }
+            } catch (error) {
+                console.log(error);
+                this.$message({
+                    type: 'error',
+                    message: error
+                });
+
+            } finally {
+                this.loading = false;
+            }
+        },
+    },
+    mounted() {
+        //enfoca el input de busqueda
+        this.inputFocus();
     }
-},
-mounted() {
-    //enfoca el input de busqueda
-    this.inputFocus();
-}
 }
 </script>

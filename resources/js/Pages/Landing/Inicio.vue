@@ -1,22 +1,24 @@
 <template>
     <LandingLayout :title="'Inicio'">
         <main class="px-3 md:px-7 lg:px-14">
-            <figure class="rounded-[70px] mt-20 h-[calc(90vh)] bg-rose-100 relative">
+            <figure class="rounded-[70px] mt-20 h-[calc(90vh)] bg-gray-700 relative">
                 <img class="rounded-[70px] h-full w-full object-cover" src="@/../../public/images/desktop_cover.png"
-                    alt="">
+                    alt="imagen de portada que muestra materiales metalicos en fondo negro">
                 <h1 class="text-white text-3xl w-[28%] font-bold absolute right-[10%] top-1/2">
                     MATERIALES DE ACERO PARA GRANDES Y PEQUEÑOS PROYECTOS
                 </h1>
-                <button class="border border-grayAF text-grayAF px-6 py-5 absolute bottom-20 right-[10%]">
+                <a href="https://api.whatsapp.com/send?phone=523329570747&text=¡Hola!%20vi%20tu%20página,%20quiero%20cotizar"
+                    as="button" target="_blank"
+                    class="border border-grayAF text-grayAF px-6 py-5 absolute bottom-20 right-[10%] hover:text-white hover:border-white transition-all duration-500">
                     COTIZA CON NOSOTROS
-                </button>
+                </a>
             </figure>
 
             <!-- Productos populares -->
             <section class="mt-16">
                 <div class="flex items-center space-x-5">
                     <h2 class="text-lg">Productos populares</h2>
-                    <PrimaryButton>Ver todos</PrimaryButton>
+                    <PrimaryButton @click="$inertia.visit(route('landing.products'))">Ver todos</PrimaryButton>
                 </div>
                 <div class="mt-8 grid grid-cols-4 gap-3">
                     <ProductCard v-for="item in products" :key="item.id" :product="item" />
@@ -38,19 +40,19 @@
             <section class="mt-12">
                 <h2 class="text-lg">
                     <b>Encuéntranos en</b>
-                    <span class="text-[#717171]"> Fraccionamiento Revolución </span>
+                    <span class="text-[#717171]">Fraccionamiento Revolución</span>
                 </h2>
             </section>
             <!-- calidad -->
             <section class="flex justify-center items-center space-x-28 mt-16 mb-20">
                 <div class="flex flex-col items-center space-y-2 w-1/5">
                     <p class="text-2xl w-3/4 text-center">Envíos a toda la Republica Mexicana</p>
-                    <img src="@/../../public/images/envios.png" class="w-1/2" alt="camion de envios">                
+                    <img src="@/../../public/images/envios.png" class="w-1/2" alt="camion de envios">
                 </div>
-                <img src="@/../../public/images/calidad.png" class="w-[15%]" alt="camion de envios">                
+                <img src="@/../../public/images/calidad.png" class="w-[15%]" alt="camion de envios">
                 <div class="flex flex-col items-center space-y-2 w-1/5">
                     <p class="text-2xl w-3/4 text-center">Extenso conocimiento en la industria</p>
-                    <img src="@/../../public/images/conocimiento.png" class="w-1/2" alt="camion de envios">                
+                    <img src="@/../../public/images/conocimiento.png" class="w-1/2" alt="camion de envios">
                 </div>
             </section>
         </main>
