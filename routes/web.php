@@ -48,7 +48,7 @@ Route::redirect('/dashboard', 'products');
 //rutas de landing
 Route::get('/', [LandingController::class, 'home'])->name('home');
 Route::get('productos', [LandingController::class, 'products'])->name('landing.products');
-Route::get('producto/{product}', [LandingController::class, 'show'])->name('landing.show');
+Route::get('productos/{product}', [LandingController::class, 'show'])->name('landing.show');
 
 
 //Product routes -------------------------------------------------------

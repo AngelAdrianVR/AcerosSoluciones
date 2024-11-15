@@ -1,9 +1,22 @@
 <template>
     <LandingLayout :title="'Productos'">
         <main class="px-3 md:px-7 lg:px-14 min-h-[77vh] mt-24">
-            <h1 class="text-center font-bold text-lg">Todos los productos</h1>
+            <section>
+                <h1 class="text-center font-bold text-lg">Todos los productos</h1>
+                <div v-if="currentQuery" class="mt-2 mb-4 mx-3 lg:mx-24">
+                    <span class="bg-primary text-white px-1 py-px rounded-sm">
+                        Estas buscando: "{{ currentQuery }}"
+                        <button @click="removeQuery()" class="ml-2">
+                            <i class="fa-solid fa-xmark text-xs"></i>
+                        </button>
+                    </span>
+                </div>
+            </section>
             <section class="my-12 grid grid-cols-4 gap-3">
-                <ProductCard v-for="item in products" :key="item.id" :product="item" />
+                <ProductCard v-for="item in filteredProducts" :key="item.id" :product="item" />
+                <p v-if="!filteredProducts.length" class="text-gray1 text-center my-8 col-span-full">
+                    No hay productos para mostrar
+                </p>
             </section>
         </main>
     </LandingLayout>
@@ -13,12 +26,13 @@
 import LandingLayout from '@/Layouts/LandingLayout.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import ProductCard from '@/Components/MyComponents/Product/ProductCard.vue';
-import axios from 'axios';
 
 export default {
     data() {
         return {
             loading: true,
+            currentQuery: null,
+            filteredProducts: [],
         }
     },
     components: {
@@ -28,25 +42,45 @@ export default {
     },
     props: {
         products: Array,
+        query: String,
+        // categories: Array,
     },
     methods: {
-        // async fetchProducts() {
-        //     try {
-        //         this.loading = true;
-        //         const response = await axios.get(route('products.get-all'));
+        removeQuery() {
+            // Obtener la URL actual
+            const url = new URL(window.location.href);
 
-        //         if (response.status === 200) {
-        //             this.products = response.data.items;
-        //         }
-        //     } catch (error) {
-        //         console.log(error);
-        //     } finally {
-        //         this.loading = false;
-        //     }
-        // },
+            // Remover la variable "query"
+            url.searchParams.delete('query');
+
+            this.currentQuery = null;
+            // Actualizar la URL sin recargar la página
+            window.history.replaceState({}, '', url.toString());
+
+            this.filterProducts();
+        },
+        filterProducts() {
+            // if (this.currentCategory == 'Todos') {
+            //     this.filteredProducts = this.products;
+            // } else {
+            //     this.filteredProducts = this.products.filter(item => item.category == this.currentCategory);
+            // }
+            
+            this.filteredProducts = this.products;
+            // buscar también por query
+            this.filterByQuery();
+        },
+        filterByQuery() {
+            if (this.currentQuery) {
+                const regex = new RegExp(this.currentQuery, 'i'); // 'i' hace la búsqueda sin distinguir mayúsculas y minúsculas
+                this.filteredProducts = this.filteredProducts.filter(product => regex.test(product.name));
+            }
+        },
     },
     mounted() {
-        // this.fetchProducts();
-    }
+        // this.currentCategory = this.filter;
+        this.currentQuery = this.query;
+        this.filterProducts();
+    },
 }
 </script>

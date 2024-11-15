@@ -18,7 +18,7 @@ export default {
     },
     methods: {
         search() {
-            this.$inertia.get(route('landing.products', { filter: 'Todos', query: this.query }));
+            this.$inertia.get(route('landing.products', { query: this.query }));
         }
     },
 }
