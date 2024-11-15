@@ -194,12 +194,12 @@ const logout = () => {
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
-                        <NavLink :href="route('products.index')" :active="route().current('products.*')">
+                        <ResponsiveNavLink :href="route('products.index')" :active="route().current('products.*')">
                             Productos
-                        </NavLink>
-                        <NavLink :href="route('categories.index')" :active="route().current('categories.*')">
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('categories.index')" :active="route().current('categories.*')">
                             Categorías
-                        </NavLink>
+                        </ResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->

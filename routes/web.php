@@ -42,7 +42,7 @@ Route::middleware([
 
 
 //redirecciona del dashboard a productos. comentar cuando la pagina tenga dashboard
-Route::redirect('/dashboard', 'products');
+// Route::redirect('/dashboard', 'products');
 
 
 //rutas de landing
