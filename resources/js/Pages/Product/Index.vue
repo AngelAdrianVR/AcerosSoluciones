@@ -19,7 +19,7 @@
 
             <!-- productos -->
             <section class="md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-                <ProductCard v-for="product in products" :key="product" :product="product" />
+                <ProductCard @product-deleted="removeProductDeleted" v-for="product in products" :key="product" :product="product" />
             </section>
         </main>
     </AppLayout>
@@ -62,6 +62,9 @@ methods:{
         this.search = null;
         this.searchedWord = null;
     },
+    removeProductDeleted(item) {
+        this.products = this.products.filter(product => product.id !== item.id);
+    }
 },
 mounted() {
     //enfoca el input de busqueda

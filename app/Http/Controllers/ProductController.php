@@ -52,8 +52,10 @@ class ProductController extends Controller
     }
 
     public function edit(Product $product)
-    {
-        //
+    {   
+        $product->load('media');
+        
+        return inertia('Product/Edit', compact('product'));
     }
 
     public function update(Request $request, Product $product)
@@ -63,6 +65,6 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        //
+        return 'eliminado';
     }
 }
