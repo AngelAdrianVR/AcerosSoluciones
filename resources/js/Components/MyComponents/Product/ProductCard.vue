@@ -16,7 +16,7 @@
 
         <!-- Imagen del producto -->
         <figure class="flex items-center justify-center h-1/2 w-full">
-            <img class="object-contain h-full" :src="product.media[0].original_url" :alt="product.name">
+            <img class="object-contain h-full" :src="product.media[0]?.original_url" :alt="product.name">
         </figure>
 
         <!-- Detalles del producto -->

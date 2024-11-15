@@ -47,6 +47,7 @@ Route::redirect('/dashboard', 'products');
 //Product routes -------------------------------------------------------
 // ---------------------------------------------------------------------
 Route::resource('products', ProductController::class);
+Route::get('products-get-all', [ProductController::class, 'getAll'])->name('products.get-all');
 
 
 //category routes ------------------------------------------------------
