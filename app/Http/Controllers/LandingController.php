@@ -18,14 +18,14 @@ class LandingController extends Controller
         $query = request('query');
         $category = request('category');
         $categories = Category::get(['id', 'name']);
-        $products = Product::with('media')->get();
+        $products = Product::with(['media', 'category'])->get();
 
         return inertia('Landing/Products', compact('products', 'query', 'category', 'categories'));
     }
 
     public function show(Product $product)
     {
-        $product = $product->load('media');
+        $product = $product->load(['media', 'category']);
 
         return inertia('Landing/Show', compact('product'));
     }

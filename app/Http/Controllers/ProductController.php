@@ -10,10 +10,9 @@ class ProductController extends Controller
 {
     public function index()
     {   
-        $products = Product::with('media')->paginate(30);
+        $products = Product::with(['media', 'category'])->paginate(30);
         $totalProducts = Product::all()->count();
 
-        // return $products;
         return inertia('Product/Index', compact('products', 'totalProducts'));
     }
 
@@ -158,7 +157,7 @@ class ProductController extends Controller
         $query = $request->input('query');
 
         // Realiza la búsqueda
-        $products = Product::with('media')->where('name', 'like', "%{$query}%")
+        $products = Product::with(['media', 'category'])->where('name', 'like', "%{$query}%")
             ->orWhere('description', 'like', "%{$query}%")
             ->orWhereHas('category', function ($q) use ($query) {
                 $q->where('name', 'like', "%{$query}%");
@@ -169,9 +168,9 @@ class ProductController extends Controller
         return response()->json(['items' => $products], 200);
     }
 
-    public function getAll()
+    public function getPopular()
     {
-        $items = Product::with(['media'])->get()->take(8);
+        $items = Product::with(['media', 'category'])->get()->take(4);
 
         return response()->json(compact('items'));
     }

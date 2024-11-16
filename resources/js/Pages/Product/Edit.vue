@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="flex justify-end items-center space-x-2 mt-7 lg:mt-0">
-                <el-popconfirm confirm-button-text="Si" cancel-button-text="No" icon-color="#D90537" title="¿Eliminar?"
+                <el-popconfirm confirm-button-text="Si" cancel-button-text="No" icon-color="#ff0000" title="¿Eliminar?"
                     @confirm="deleteProduct">
                     <template #reference>
                         <i @click.stop=""

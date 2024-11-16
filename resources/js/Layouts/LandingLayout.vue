@@ -101,11 +101,11 @@ html {
         <Banner />
 
         <div class="min-h-screen">
-            <nav :class="['navbar', { 'fixed-navbar': isNavbarFixed }]" class=" py-1 px-3 md:px-9">
+            <nav :class="['navbar', { 'fixed-navbar': isNavbarFixed }]" class="py-1 px-3 md:px-9">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-full sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
-                        <div class="flex justify-between items-center space-x-4 w-full mr-16">
+                        <div class="flex items-center lg:justify-between space-x-3 w-full mr-4">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('home')">
@@ -115,23 +115,30 @@ html {
                             <!-- buscador -->
                             <SearchBar />
                             <!-- Navigation Links -->
-                            <div class="hidden space-x-10 sm:-my-px sm:ms-10 sm:flex items-center">
+                            <div class="hidden space-x-4 sm:-my-px sm:ms-10 sm:flex items-center">
+                                <NavLink v-if="$page.props.auth?.user?.id" :href="route('dashboard')"
+                                    :active="route().current('dashboard')"
+                                    class="bg-primary rounded-md p-1 text-white hover:text-white focus:text-white">
+                                    Ir a administrador
+                                </NavLink>
                                 <NavLink :href="route('home')" :active="route().current('home')">
                                     Inicio
                                 </NavLink>
                                 <Dropdown align="right" width="60">
                                     <template #trigger>
                                         <button type="button"
-                                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                                            class="mt-1 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-md bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                                             Categorías
-                                            <i class="fa-solid fa-angle-down ml-3 text-[8px]"></i>
+                                            <i class="fa-solid fa-angle-down ml-2 text-[8px]"></i>
                                         </button>
                                     </template>
 
                                     <template #content>
                                         <div class="w-60">
-                                            <DropdownLink
-                                                :href="route('landing.products', { category: item.id })"
+                                            <DropdownLink :href="route('landing.products')">
+                                                Todos
+                                            </DropdownLink>
+                                            <DropdownLink :href="route('landing.products', { category: item.name })"
                                                 v-for="item in categories" :key="item.id">
                                                 {{ item.name }}
                                             </DropdownLink>
@@ -141,7 +148,6 @@ html {
                                 <button @click="goToWhatsApp" class="text-[#1BD962]">
                                     <i class="fa-brands fa-whatsapp text-lg"></i>
                                 </button>
-
                             </div>
                         </div>
                         <!-- Hamburger -->
@@ -167,13 +173,21 @@ html {
                 <!-- Responsive Navigation Menu -->
                 <div :class="{ 'block': showingNavigationDropdown, 'hidden': !showingNavigationDropdown }"
                     class="sm:hidden">
-                    <div class="pt-2 pb-3 space-y-1">
+                    <div class="p-1 space-y-px">
+                        <ResponsiveNavLink v-if="$page.props.auth?.user?.id" :href="route('dashboard')" :active="route().current('dashboard')">
+                            Ir a administrador
+                        </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('home')" :active="route().current('home')">
                             Inicio
                         </ResponsiveNavLink>
-                        <!-- <ResponsiveNavLink :href="route('services')" :active="route().current('services')">
-                            Servicios
-                        </ResponsiveNavLink> -->
+                        <p class="text-gray-500 text-xs pt-2">Categorias</p>
+                        <ResponsiveNavLink :href="route('landing.products')">
+                            Todas
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink v-for="item in categories" :key="item.id"
+                            :href="route('landing.products', { category: item.name })">
+                            {{ item.name }}
+                        </ResponsiveNavLink>
                     </div>
                 </div>
             </nav>
@@ -188,9 +202,9 @@ html {
                 <slot />
             </main>
             <footer class="bg-[#121212] text-white mt-10">
-                <section class="mx-16 pt-6 flex items-center justify-between">
+                <section class="mx-3 lg:mx-16 pt-6 flex items-center justify-between">
                     <figure>
-                        <img src="@/../../public/images/logo_footer.png"
+                        <img src="@/../../public/images/logo_footer.png" class="w-36 lg:w-full"
                             alt="logo de acero soluciones en pie de página">
                     </figure>
                     <div class="flex items-center space-x-2">
@@ -229,7 +243,7 @@ html {
                         </a>
                     </div>
                 </section>
-                <section class="mx-16 pt-6 flex items-center justify-between text-sm">
+                <section class="hidden mx-16 pt-6 lg:flex items-center justify-between text-xs">
                     <span>&COPY; 2024. ACERO SOLUCIONES</span>
                     <p class="flex items-center space-x-2">
                         <a as="button" target="_blank" :href="route('terms.show')" class="underline">Términos y
@@ -246,6 +260,28 @@ html {
                                     alt="logo de empresa desarrolladora de paginas web, DTW">
                             </figure>
                         </a>
+                    </div>
+                </section>
+                <section class="mx-3 text-[10px] lg:hidden">
+                    <div class="flex flex-col items-end">
+                        <a as="button" target="_blank" :href="route('terms.show')" class="underline">
+                            Términos y condiciones
+                        </a>
+                        <a as="button" target="_blank" :href="route('policy.show')" class="underline">
+                            Política de privacidad
+                        </a>
+                    </div>
+                    <div class="flex justify-between items-center mt-3">
+                        <span>&COPY; 2024. ACERO SOLUCIONES</span>
+                        <div class="flex items-center space-x-2">
+                            <span>Desarrollado por</span>
+                            <a href="https://app.dtw.com.mx" target="_blank">
+                                <figure>
+                                    <img src="@/../../public/images/logo_dtw.png"
+                                        alt="logo de empresa desarrolladora de paginas web, DTW">
+                                </figure>
+                            </a>
+                        </div>
                     </div>
                 </section>
             </footer>

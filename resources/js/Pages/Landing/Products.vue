@@ -6,19 +6,14 @@
                     Todos los productos
                 </h1>
                 <h1 v-else class="text-center font-bold text-lg">
-                    Productos de categoría "{{ categories.find(i => i.id == category).name }}"
+                    Productos de categoría "{{ category }}"
                 </h1>
-                <div v-if="currentQuery" class="mt-2 mb-4 mx-3 lg:mx-24">
-                    <span class="bg-primary text-white px-1 py-px rounded-sm">
-                        Estas buscando: "{{ currentQuery }}"
-                        <button @click="removeQuery()" class="ml-2">
-                            <i class="fa-solid fa-xmark text-xs"></i>
-                        </button>
-                    </span>
-                </div>
+                <el-tag v-if="currentQuery" @close="removeQuery" closable type="primary" class="mt-2">
+                    Estas buscando: <b>{{ currentQuery }}</b>
+                </el-tag>
             </section>
-            <section class="my-12 grid grid-cols-4 gap-3">
-                <ProductCard v-for="item in filteredProducts" :key="item.id" :product="item" />
+            <section class="my-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                <ProductCard v-for="item in filteredProducts" :key="item.id" :product="item" isInLanding />
                 <p v-if="!filteredProducts.length" class="text-gray1 text-center my-8 col-span-full">
                     No hay productos para mostrar
                 </p>
@@ -70,9 +65,9 @@ export default {
             if (!this.category) {
                 this.filteredProducts = this.products;
             } else {
-                this.filteredProducts = this.products.filter(item => item.category_id == this.category);
+                this.filteredProducts = this.products.filter(item => item.category.name == this.category);
             }
-            
+
             // buscar también por query
             this.filterByQuery();
         },

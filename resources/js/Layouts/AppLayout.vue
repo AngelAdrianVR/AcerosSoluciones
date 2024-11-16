@@ -52,7 +52,8 @@ const logout = () => {
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink :href="route('home')" :active="route().current('home')">
+                                <NavLink :href="route('home')" :active="route().current('home')"
+                                    class="bg-primary rounded-md p-1 text-white hover:text-white focus:text-white">
                                     Ir a página principal
                                 </NavLink>
                                 <NavLink :href="route('products.index')" :active="route().current('products.*')">

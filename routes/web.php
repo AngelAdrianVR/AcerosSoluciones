@@ -54,7 +54,7 @@ Route::get('productos/{product}', [LandingController::class, 'show'])->name('lan
 //Product routes -------------------------------------------------------
 // ---------------------------------------------------------------------
 Route::resource('products', ProductController::class);
-Route::get('products-get-all', [ProductController::class, 'getAll'])->name('products.get-all');
+Route::get('products-get-popular', [ProductController::class, 'getPopular'])->name('products.get-popular');
 Route::post('products/update-with-media/{product}', [ProductController::class, 'updateWithMedia'])->name('products.update-with-media');
 Route::post('products/get-matches', [ProductController::class, 'getMatches'])->name('products.get-matches');
 

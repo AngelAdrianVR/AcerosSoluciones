@@ -1,5 +1,5 @@
 <template>
-    <section @click="showDetails" class="rounded-2xl border-2 border-[#D9D9D9] p-4 h-72 relative group"
+    <section @click="showDetails" class="rounded-2xl border-2 border-[#D9D9D9] p-3 h-72 relative group"
         :class="isInLanding ? 'hover:cursor-pointer' : ''">
         <!-- Botones de acción -->
         <div v-if="$page.props.auth?.user?.id"
@@ -35,10 +35,18 @@
 
         <!-- Detalles del producto -->
         <div class="text-center mt-4">
-            {{ product.category_id }}
             <h2 class="font-bold">{{ product.name }}</h2>
-            <h1 class="text-[13px] mt-3 line-clamp-2">{{ product.description }}</h1>
+            <h1 class="text-[13px] mt-3 line-clamp-2 text-xs md:text-base">{{ product.description }}</h1>
         </div>
+        <p class="absolute bottom-1 right-6 text-gray-700 flex space-x-px lg:space-x-1">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.3"
+                stroke="currentColor" class="size-4">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
+            </svg>
+            <span class="text-[10px] lg:text-xs">{{ product.category.name }}</span>
+        </p>
     </section>
 </template>
 

@@ -22,7 +22,7 @@
                 </div>
                 <!-- buttons -->
                 <div>
-                    <el-popconfirm confirm-button-text="Si" cancel-button-text="No" icon-color="#0355B5"
+                    <el-popconfirm confirm-button-text="Si" cancel-button-text="No" icon-color="#ff0000"
                         title="¿Continuar?" @confirm="deleteSelections">
                         <template #reference>
                             <el-button type="danger" plain class="mb-3"
@@ -34,7 +34,7 @@
             <el-table :data="filteredTableData" max-height="450" style="width: 100%"
                 @selection-change="handleSelectionChange" ref="multipleTableRef" :row-class-name="tableRowClassName">
                 <el-table-column type="selection" width="45" />
-                <el-table-column prop="name" label="Categorías" width="390" />
+                <el-table-column prop="name" label="Categorías" width="250" />
                 <el-table-column align="right">
                     <!-- Usar scope para acceder a los datos de la fila -->
                     <template #default="scope">
@@ -223,7 +223,6 @@ export default {
             return classes;
         },
         handleRowEdit(row) {
-            console.log(row);
             this.itemClicked = row;
             this.editFlag = true;
             this.showModal = true;
