@@ -30,7 +30,7 @@
             <!-- Productos populares -->
             <section class="mt-8 lg:mt-16">
                 <div class="flex items-center space-x-5">
-                    <h2 class="text-lg">Productos populares</h2>
+                    <h2 class="text-sm md:text-lg">Productos populares</h2>
                     <PrimaryButton @click="$inertia.visit(route('landing.products'))">Ver todos</PrimaryButton>
                 </div>
                 <el-skeleton v-if="loading" class="mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" animated>
@@ -44,7 +44,7 @@
             </section>
             <!-- marcas -->
             <section class="mt-12">
-                <h2 class="text-lg font-bold">Algunas de nuestras marcas</h2>
+                <h2 class="text-sm md:text-lg font-bold">Algunas de nuestras marcas</h2>
                 <Carousel v-bind="brandsSettings" :breakpoints="brandsBreackpoints">
                     <Slide v-for="slide in brandsImages" :key="slide">
                         <img class="w-1/3 md:w-[70%]" :src="slide">
@@ -56,7 +56,7 @@
             </section>
             <!-- ubicacion -->
             <section class="mt-12">
-                <h2 class="text-lg flex items-center space-x-2">
+                <h2 class="text-sm md:text-lg flex items-center space-x-1">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -65,7 +65,7 @@
                             d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                     </svg>
                     <b>Encuéntranos en</b>
-                    <span class="text-[#717171]"> Fraccionamiento Revolución </span>
+                    <span class="text-[#717171]"> Fraccionamiento Revolución</span>
                 </h2>
             </section>
             <!-- calidad -->
