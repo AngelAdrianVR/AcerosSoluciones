@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -15,15 +16,16 @@ class LandingController extends Controller
     public function products()
     {
         $query = request('query');
-        // $categories = Category::get('name');
-        $products = Product::with('media')->get();
+        $category = request('category');
+        $categories = Category::get(['id', 'name']);
+        $products = Product::with(['media', 'category'])->get();
 
-        return inertia('Landing/Products', compact('products', 'query'));
+        return inertia('Landing/Products', compact('products', 'query', 'category', 'categories'));
     }
 
     public function show(Product $product)
     {
-        $product = $product->load('media');
+        $product = $product->load(['media', 'category']);
 
         return inertia('Landing/Show', compact('product'));
     }

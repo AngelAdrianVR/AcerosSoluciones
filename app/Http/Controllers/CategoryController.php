@@ -9,7 +9,7 @@ use Illuminate\Validation\Rule;
 class CategoryController extends Controller
 {
     public function index()
-    {   
+    {
         $categories = Category::all();
 
         return inertia('Category/Index', compact('categories'));
@@ -63,9 +63,15 @@ class CategoryController extends Controller
         foreach ($request->categories as $category) {
             $category = Category::find($category['id']);
             $category?->delete();
-
         }
 
         return response()->json(['message' => 'Categoría(s) eliminada(s)']);
+    }
+
+    public function getAll()
+    {
+        $items = Category::all();
+
+        return response()->json(compact('items'));
     }
 }

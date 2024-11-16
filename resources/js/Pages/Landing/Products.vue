@@ -2,18 +2,18 @@
     <LandingLayout :title="'Productos'">
         <main class="px-3 md:px-7 lg:px-14 min-h-[77vh] mt-24">
             <section>
-                <h1 class="text-center font-bold text-lg">Todos los productos</h1>
-                <div v-if="currentQuery" class="mt-2 mb-4 mx-3 lg:mx-24">
-                    <span class="bg-primary text-white px-1 py-px rounded-sm">
-                        Estas buscando: "{{ currentQuery }}"
-                        <button @click="removeQuery()" class="ml-2">
-                            <i class="fa-solid fa-xmark text-xs"></i>
-                        </button>
-                    </span>
-                </div>
+                <h1 v-if="!category" class="text-center font-bold text-lg">
+                    Todos los productos
+                </h1>
+                <h1 v-else class="text-center font-bold text-lg">
+                    Productos de categoría "{{ category }}"
+                </h1>
+                <el-tag v-if="currentQuery" @close="removeQuery" closable type="primary" class="mt-2">
+                    Estas buscando: <b>{{ currentQuery }}</b>
+                </el-tag>
             </section>
-            <section class="my-12 grid grid-cols-4 gap-3">
-                <ProductCard v-for="item in filteredProducts" :key="item.id" :product="item" />
+            <section class="my-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                <ProductCard v-for="item in filteredProducts" :key="item.id" :product="item" isInLanding />
                 <p v-if="!filteredProducts.length" class="text-gray1 text-center my-8 col-span-full">
                     No hay productos para mostrar
                 </p>
@@ -32,6 +32,7 @@ export default {
         return {
             loading: true,
             currentQuery: null,
+            // category: null,
             filteredProducts: [],
         }
     },
@@ -43,7 +44,8 @@ export default {
     props: {
         products: Array,
         query: String,
-        // categories: Array,
+        category: String,
+        categories: Array,
     },
     methods: {
         removeQuery() {
@@ -60,13 +62,12 @@ export default {
             this.filterProducts();
         },
         filterProducts() {
-            // if (this.currentCategory == 'Todos') {
-            //     this.filteredProducts = this.products;
-            // } else {
-            //     this.filteredProducts = this.products.filter(item => item.category == this.currentCategory);
-            // }
-            
-            this.filteredProducts = this.products;
+            if (!this.category) {
+                this.filteredProducts = this.products;
+            } else {
+                this.filteredProducts = this.products.filter(item => item.category.name == this.category);
+            }
+
             // buscar también por query
             this.filterByQuery();
         },
@@ -78,7 +79,7 @@ export default {
         },
     },
     mounted() {
-        // this.currentCategory = this.filter;
+        // this.category = this.category;
         this.currentQuery = this.query;
         this.filterProducts();
     },

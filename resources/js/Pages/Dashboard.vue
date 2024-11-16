@@ -2,7 +2,7 @@
   <div class="inicio-container flex-col">
     <transition name="logo-grow">
         <figure class="rounded-3xl border p-3 shadow-md shadow-black/30 size-28  md:size-36 text-center flex items-center justify-center">
-            <img class="w-20 animate-spin" src="@/../../public/images/isologotipo.png" alt="Logo" />
+            <img class="w-20 animate-spin-slow" src="@/../../public/images/isologotipo.png" alt="Logo" />
         </figure>
     </transition>
     <p class="mt-2">{{ loadingText }}</p>
