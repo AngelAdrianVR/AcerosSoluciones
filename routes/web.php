@@ -42,7 +42,7 @@ Route::middleware([
 
 
 //redirecciona del dashboard a productos. comentar cuando la pagina tenga dashboard
-Route::redirect('/dashboard', 'products');
+// Route::redirect('/dashboard', 'products');
 
 
 //rutas de landing
@@ -62,3 +62,4 @@ Route::post('products/get-matches', [ProductController::class, 'getMatches'])->n
 //category routes ------------------------------------------------------
 // ---------------------------------------------------------------------
 Route::resource('categories', CategoryController::class);
+Route::post('categories/massive-delete', [CategoryController::class, 'massiveDelete'])->name('categories.massive-delete');

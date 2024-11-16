@@ -76,7 +76,11 @@ export default {
             this.filteredProducts = this.products;
         },
         removeProductDeleted(item) {
-            this.products = this.products.filter(product => product.id !== item.id);
+            console.log(item);
+            const index = this.filteredProducts.data.findIndex(product => product.id == item.id);
+            if (index !== -1) {
+                this.filteredProducts.data.splice(index, 1);
+            }
         },
         async handleSearch() {
             this.loading = true;

@@ -10,7 +10,7 @@ class ProductController extends Controller
 {
     public function index()
     {   
-        $products = Product::with('media')->paginate(2);
+        $products = Product::with('media')->paginate(30);
         $totalProducts = Product::all()->count();
 
         // return $products;
