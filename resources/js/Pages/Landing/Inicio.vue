@@ -13,7 +13,6 @@
                     COTIZA CON NOSOTROS
                 </a>
             </figure>
-
             <!-- Productos populares -->
             <section class="mt-16">
                 <div class="flex items-center space-x-5">
@@ -21,7 +20,7 @@
                     <PrimaryButton @click="$inertia.visit(route('landing.products'))">Ver todos</PrimaryButton>
                 </div>
                 <div class="mt-8 grid grid-cols-4 gap-3">
-                    <ProductCard v-for="item in products" :key="item.id" :product="item" />
+                    <ProductCard v-for="item in products" :key="item.id" :product="item" isInLanding />
                 </div>
             </section>
             <!-- marcas -->
@@ -40,18 +39,18 @@
             <section class="mt-12">
                 <h2 class="text-lg">
                     <b>Encuéntranos en</b>
-                    <span class="text-[#717171]">Fraccionamiento Revolución</span>
+                    <span class="text-[#717171]"> Fraccionamiento Revolución </span>
                 </h2>
             </section>
             <!-- calidad -->
             <section class="flex justify-center items-center space-x-28 mt-16 mb-20">
                 <div class="flex flex-col items-center space-y-2 w-1/5">
-                    <p class="text-2xl w-3/4 text-center">Envíos a toda la Republica Mexicana</p>
+                    <p class="text-xl w-3/4 text-center">Envíos a toda la Republica Mexicana</p>
                     <img src="@/../../public/images/envios.png" class="w-1/2" alt="camion de envios">
                 </div>
                 <img src="@/../../public/images/calidad.png" class="w-[15%]" alt="camion de envios">
                 <div class="flex flex-col items-center space-y-2 w-1/5">
-                    <p class="text-2xl w-3/4 text-center">Extenso conocimiento en la industria</p>
+                    <p class="text-xl w-3/4 text-center">Extenso conocimiento en la industria</p>
                     <img src="@/../../public/images/conocimiento.png" class="w-1/2" alt="camion de envios">
                 </div>
             </section>
@@ -73,7 +72,6 @@ import sanluis from '@/../../public/images/sanluis.png';
 //carousel
 import { Carousel, Navigation, Slide } from 'vue3-carousel';
 import 'vue3-carousel/dist/carousel.css';
-// import Footer from '@/Components/MyComponents/Landing/Footer.vue';
 
 export default {
     data() {
@@ -120,7 +118,6 @@ export default {
         Navigation,
         Carousel,
         Slide,
-        // Footer,
     },
     props: {
 

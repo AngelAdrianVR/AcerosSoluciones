@@ -139,6 +139,7 @@ return [
     'attributes' => [
         'name' => 'nombre',
         'category' => 'categoría',
+        'category_id' => 'categoría',
         'price' => 'precio',
         'discount_price' => 'precio con descuento',
     ],

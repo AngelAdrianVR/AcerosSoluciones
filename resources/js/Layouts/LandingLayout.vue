@@ -17,9 +17,21 @@ defineProps({
 // Variables reactivas
 const isNavbarFixed = ref(true);
 const lastScrollY = ref(0);
-const search = ref('');
-
+const categories = ref([]);
 const showingNavigationDropdown = ref(false);
+
+// metodos -----------
+const getCategories = async () => {
+    try {
+        const response = await axios.get(route("categories.get-all"));
+
+        if (response.status === 200) {
+            categories.value = response.data.items;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
 
 // Función para manejar el scroll
 const handleScroll = () => {
@@ -38,6 +50,7 @@ const handleScroll = () => {
 
 // Ciclos de vida del componente
 onMounted(() => {
+    getCategories();
     window.addEventListener('scroll', handleScroll);
 });
 
@@ -117,38 +130,14 @@ html {
 
                                     <template #content>
                                         <div class="w-60">
-                                            <!-- options -->
-                                            <DropdownLink as="button">
-                                                Perfiles estructurales
-                                            </DropdownLink>
-                                            <DropdownLink as="button">
-                                                Tubos de acero
-                                            </DropdownLink>
-                                            <DropdownLink as="button">
-                                                Láminas y placas de acero
-                                            </DropdownLink>
-                                            <DropdownLink as="button">
-                                                Acero inoxidable
-                                            </DropdownLink>
-                                            <DropdownLink as="button">
-                                                Mallas y cercados
-                                            </DropdownLink>
-                                            <DropdownLink as="button">
-                                                Varilla y alambre
-                                            </DropdownLink>
-                                            <DropdownLink as="button">
-                                                Tornillería y fijación
-                                            </DropdownLink>
-                                            <DropdownLink as="button">
-                                                Herramienta y equipo de corte
+                                            <DropdownLink
+                                                :href="route('landing.products', { category: item.id })"
+                                                v-for="item in categories" :key="item.id">
+                                                {{ item.name }}
                                             </DropdownLink>
                                         </div>
                                     </template>
                                 </Dropdown>
-
-                                <!-- <NavLink :href="route('services')" :active="route().current('services')">
-                                    Categorías
-                                </NavLink> -->
                                 <button @click="goToWhatsApp" class="text-[#1BD962]">
                                     <i class="fa-brands fa-whatsapp text-lg"></i>
                                 </button>
@@ -160,7 +149,7 @@ html {
                             <button
                                 class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
                                 @click="showingNavigationDropdown = !showingNavigationDropdown">
-                                <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <svg class="size-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                     <path
                                         :class="{ 'hidden': showingNavigationDropdown, 'inline-flex': !showingNavigationDropdown }"
                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -188,19 +177,16 @@ html {
                     </div>
                 </div>
             </nav>
-
             <!-- Page Heading -->
             <header v-if="$slots.header" class="bg-white shadow">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>
             </header>
-
             <!-- Page Content -->
             <main>
                 <slot />
             </main>
-
             <footer class="bg-[#121212] text-white mt-10">
                 <section class="mx-16 pt-6 flex items-center justify-between">
                     <figure>

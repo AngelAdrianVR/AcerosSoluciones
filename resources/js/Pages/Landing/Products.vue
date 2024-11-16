@@ -2,7 +2,12 @@
     <LandingLayout :title="'Productos'">
         <main class="px-3 md:px-7 lg:px-14 min-h-[77vh] mt-24">
             <section>
-                <h1 class="text-center font-bold text-lg">Todos los productos</h1>
+                <h1 v-if="!category" class="text-center font-bold text-lg">
+                    Todos los productos
+                </h1>
+                <h1 v-else class="text-center font-bold text-lg">
+                    Productos de categoría "{{ categories.find(i => i.id == category).name }}"
+                </h1>
                 <div v-if="currentQuery" class="mt-2 mb-4 mx-3 lg:mx-24">
                     <span class="bg-primary text-white px-1 py-px rounded-sm">
                         Estas buscando: "{{ currentQuery }}"
@@ -32,6 +37,7 @@ export default {
         return {
             loading: true,
             currentQuery: null,
+            // category: null,
             filteredProducts: [],
         }
     },
@@ -43,7 +49,8 @@ export default {
     props: {
         products: Array,
         query: String,
-        // categories: Array,
+        category: String,
+        categories: Array,
     },
     methods: {
         removeQuery() {
@@ -60,13 +67,12 @@ export default {
             this.filterProducts();
         },
         filterProducts() {
-            // if (this.currentCategory == 'Todos') {
-            //     this.filteredProducts = this.products;
-            // } else {
-            //     this.filteredProducts = this.products.filter(item => item.category == this.currentCategory);
-            // }
+            if (!this.category) {
+                this.filteredProducts = this.products;
+            } else {
+                this.filteredProducts = this.products.filter(item => item.category_id == this.category);
+            }
             
-            this.filteredProducts = this.products;
             // buscar también por query
             this.filterByQuery();
         },
@@ -78,7 +84,7 @@ export default {
         },
     },
     mounted() {
-        // this.currentCategory = this.filter;
+        // this.category = this.category;
         this.currentQuery = this.query;
         this.filterProducts();
     },

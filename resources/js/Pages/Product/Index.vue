@@ -8,28 +8,29 @@
                             placeholder="Buscar por nombre o categoría" type="search" ref="searchInput" />
                         <i class="fa-solid fa-magnifying-glass text-xs text-gray99 absolute top-[10px] left-4"></i>
                     </div>
-                    <el-tag @close="closedTag" v-if="searchedWord" closable type="primary">
-                        {{ searchedWord }}
-                    </el-tag>
                 </article>
                 <PrimaryButton @click="$inertia.visit(route('products.create'))">Nuevo producto</PrimaryButton>
             </section>
-            <h1 class="font-bold mt-7 ml-4 text-[#717171] text-sm">{{ totalProducts }} productos</h1>
-
+            <el-tag @close="closedTag" v-if="searchedWord" closable type="primary" class="mt-2">
+                Estas buscando: <b>{{ searchedWord }}</b>
+            </el-tag>
+            <h1 class="font-bold mt-7 ml-4 text-[#717171] text-sm">
+                {{ searchedWord ? filteredProducts.data.length : totalProducts }} productos
+            </h1>
             <!-- pagination -->
             <div class="overflow-auto mb-2">
                 <PaginationWithNoMeta v-if="!searchedWord" :pagination="products" class="py-2" />
             </div>
-
             <!-- Estado de carga -->
             <div v-if="loading" class="text-center">
                 <LoadingLogo class="mt-4 lg:mt-20" />
             </div>
-
             <!-- productos -->
             <section v-else class="md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 space-y-3 md:space-y-0">
                 <ProductCard @product-deleted="removeProductDeleted" v-for="product in filteredProducts.data"
                     :key="product" :product="product" />
+                <el-empty v-if="!filteredProducts.data.length" description="No se encontraron productos para mostrar"
+                    class="col-span-full" />
             </section>
         </main>
     </AppLayout>
@@ -48,7 +49,6 @@ export default {
             // buscador
             searchQuery: null,
             searchedWord: null,
-
             //general
             filteredProducts: this.products,
             loading: false,
@@ -76,7 +76,6 @@ export default {
             this.filteredProducts = this.products;
         },
         removeProductDeleted(item) {
-            console.log(item);
             const index = this.filteredProducts.data.findIndex(product => product.id == item.id);
             if (index !== -1) {
                 this.filteredProducts.data.splice(index, 1);
