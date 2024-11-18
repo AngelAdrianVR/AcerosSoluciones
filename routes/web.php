@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -64,3 +65,15 @@ Route::post('products/get-matches', [ProductController::class, 'getMatches'])->n
 Route::resource('categories', CategoryController::class);
 Route::post('categories/massive-delete', [CategoryController::class, 'massiveDelete'])->name('categories.massive-delete');
 Route::get('categories-get-all', [CategoryController::class, 'getAll'])->name('categories.get-all');
+
+
+//artisan commands -------------------
+Route::get('/storage-link', function () {
+    Artisan::call('storage:link');
+   
+    return 'Linked!.';
+});
+Route::get('/php-info', function () {
+    return phpinfo();
+});
+
