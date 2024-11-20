@@ -5,7 +5,7 @@
             <figure class="hidden md:block rounded-[70px] mt-20 h-[calc(90vh)] bg-gray-700 relative">
                 <img class="rounded-[70px] h-full w-full object-cover" src="@/../../public/images/desktop_cover.png"
                     alt="imagen de portada que muestra materiales metalicos en fondo negro">
-                <h1 class="text-white text-3xl w-[28%] font-bold absolute right-[10%] md:top-16 xl:top-1/2">
+                <h1 class="text-white text-3xl w-[28%] font-bold absolute right-[10%] md:top-16 xl:top-1/5">
                     MATERIALES DE ACERO PARA GRANDES Y PEQUEÑOS PROYECTOS
                 </h1>
                 <a href="https://api.whatsapp.com/send?phone=523329570747&text=¡Hola!%20vi%20tu%20página,%20quiero%20cotizar"
