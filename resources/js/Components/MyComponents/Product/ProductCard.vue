@@ -1,5 +1,5 @@
 <template>
-    <section @click="showDetails" class="rounded-2xl border-2 border-[#D9D9D9] p-3 h-72 relative group"
+    <section @click="showDetails" class="rounded-2xl border-2 border-[#D9D9D9] px-3 pt-3 pb-6 h-80 relative group"
         :class="isInLanding ? 'hover:cursor-pointer' : ''">
         <!-- Botones de acción -->
         <div v-if="$page.props.auth?.user?.id"
@@ -38,7 +38,7 @@
             <h2 class="font-bold">{{ product.name }}</h2>
             <h1 class="text-[13px] mt-3 line-clamp-2 text-xs md:text-base">{{ product.description }}</h1>
         </div>
-        <p class="absolute bottom-1 right-6 text-gray-700 flex space-x-px lg:space-x-1">
+        <p class="absolute bottom-3 right-6 text-gray-700 flex space-x-px lg:space-x-1">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.3"
                 stroke="currentColor" class="size-4">
                 <path stroke-linecap="round" stroke-linejoin="round"

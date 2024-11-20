@@ -62,6 +62,11 @@ const goToWhatsApp = () => {
     const url = "https://api.whatsapp.com/send?phone=523329570747&text=¡Hola!%20vi%20tu%20página,%20me%20interesan%20tus%20productos";
     window.open(url, "_blank", "noopener,noreferrer");
 };
+
+const makeCall = () => {
+    const phoneNumber = "+523329570747"; // Reemplaza con el número deseado
+    window.location.href = `tel:${phoneNumber}`;
+}
 </script>
 
 <style>
@@ -148,6 +153,9 @@ html {
                                 <button @click="goToWhatsApp" class="text-[#1BD962]">
                                     <i class="fa-brands fa-whatsapp text-lg"></i>
                                 </button>
+                                <button @click="makeCall" class="text-blue-600">
+                                    <i class="fa-solid fa-phone text-sm"></i>
+                                </button>
                             </div>
                         </div>
                         <!-- Hamburger -->
@@ -174,7 +182,8 @@ html {
                 <div :class="{ 'block': showingNavigationDropdown, 'hidden': !showingNavigationDropdown }"
                     class="sm:hidden">
                     <div class="p-1 space-y-px">
-                        <ResponsiveNavLink v-if="$page.props.auth?.user?.id" :href="route('dashboard')" :active="route().current('dashboard')">
+                        <ResponsiveNavLink v-if="$page.props.auth?.user?.id" :href="route('dashboard')"
+                            :active="route().current('dashboard')">
                             Ir a administrador
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('home')" :active="route().current('home')">
@@ -207,7 +216,7 @@ html {
                         <img src="@/../../public/images/logo_footer.png" class="w-36 lg:w-full"
                             alt="logo de acero soluciones en pie de página">
                     </figure>
-                    <div class="flex items-center space-x-2">
+                    <div class="flex items-center space-x-4">
                         <!-- <a as="button">
                             <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="14" cy="14" r="13.35" stroke="white" stroke-width="1.3" />
@@ -241,6 +250,9 @@ html {
                                     stroke-linejoin="round" />
                             </svg>
                         </a>
+                        <button @click="makeCall" class="text-blue-600">
+                            <i class="fa-solid fa-phone text-2xl"></i>
+                        </button>
                     </div>
                 </section>
                 <section class="hidden mx-16 pt-6 lg:flex items-center justify-between text-xs">

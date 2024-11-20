@@ -1,6 +1,6 @@
 <template>
     <AppLayout title="Productos">
-        <main class="px-4 md:px-12 lg:w-3/4 mx-auto pt-8 pb-16">
+        <main class="px-4 md:px-12 lg:w-4/5 xl:3/4 mx-auto pt-8 pb-16">
             <section class="md:flex justify-between items-center">
                 <article class="flex items-center space-x-5 md:w-1/2 lg:w-1/3">
                     <div class="mb-3 md:mb-0 w-full relative">

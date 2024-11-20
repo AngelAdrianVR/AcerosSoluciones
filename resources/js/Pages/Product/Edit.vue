@@ -53,7 +53,7 @@
 
                     <div class="mt-2">
                         <div class="flex items-center justify-between">
-                            <InputLabel value="Categría*" />
+                            <InputLabel value="Categoría*" />
                             <button @click="showCategoryFormModal = true" type="button"
                                 class="rounded-full border bg-primary size-4 flex items-center justify-center mr-2">
                                 <i class="fa-solid fa-plus text-white text-[7px]"></i>
