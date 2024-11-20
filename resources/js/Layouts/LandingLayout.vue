@@ -64,7 +64,7 @@ const goToWhatsApp = () => {
 };
 
 const makeCall = () => {
-    const phoneNumber = "+523329570747"; // Reemplaza con el número deseado
+    const phoneNumber = "3329570747";
     window.location.href = `tel:${phoneNumber}`;
 }
 </script>
@@ -105,7 +105,7 @@ html {
 
         <Banner />
 
-        <div class="min-h-screen">
+        <div class="min-h-screen flex flex-col justify-between">
             <nav :class="['navbar', { 'fixed-navbar': isNavbarFixed }]" class="py-1 px-3 md:px-9">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-full sm:px-6 lg:px-8">

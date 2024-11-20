@@ -25,14 +25,17 @@
                 <h2 class="text-center font-bold mt-3">{{ product.name }}</h2>
                 <div class="mt-5 lg:mt-8 text-sm">
                     <h3 v-if="product.description" class="font-semibold">Descripción</h3>
-                    <p style="white-space: pre-line;" class="mt-1">
+                    <p style="white-space: pre-line;" class="mt-1 text-justify">
                         {{ product.description }}
                     </p>
                 </div>
-                <div class="flex justify-center xl:mx-24 mt-5 lg:mt-12">
+                <div class="flex justify-center space-x-1 xl:mx-24 mt-5 lg:mt-12">
                     <a :href="wpUrl" target="_blank" class="w-full">
                         <PrimaryButton class="w-full flex justify-center">Enviar mensaje</PrimaryButton>
                     </a>
+                    <PrimaryButton @click="makeCall" class="size-[34px] flex justify-center items-center">
+                        <i class="fa-solid fa-phone"></i>
+                    </PrimaryButton>
                 </div>
             </section>
         </main>
@@ -67,6 +70,12 @@ export default {
     },
     props: {
         product: Object,
+    },
+    methods: {
+        makeCall() {
+            const phoneNumber = "3329570747";
+            window.location.href = `tel:${phoneNumber}`;
+        },
     }
 }
 </script>
