@@ -108,7 +108,7 @@ export default {
             name: null,
             description: null,
             category_id: null,
-            is_popular: null,
+            is_popular: false,
             image_cover1: null,
             image_cover2: null,
             image_cover3: null,
