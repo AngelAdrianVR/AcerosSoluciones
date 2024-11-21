@@ -15,7 +15,8 @@ class Product extends Model implements HasMedia
     protected $fillable = [
         'name',
         'description',
-        'category_id'
+        'category_id',
+        'is_popular',
     ];
 
     //relationships

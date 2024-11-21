@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
+            $table->boolean('is_popular')->default(false);
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

@@ -29,6 +29,7 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:800',
             'category_id' => 'required',
+            'is_popular' => 'boolean',
         ]);
 
         $product = Product::create($validated);
@@ -70,6 +71,7 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:800',
             'category_id' => 'required',
+            'is_popular' => 'boolean',
         ]);
 
         $product->update($validated);
@@ -97,6 +99,7 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:800',
             'category_id' => 'required',
+            'is_popular' => 'boolean',
         ]);
 
         $product->update($validated);
@@ -170,7 +173,7 @@ class ProductController extends Controller
 
     public function getPopular()
     {
-        $items = Product::with(['media', 'category'])->get()->take(4);
+        $items = Product::with(['media', 'category'])->where('is_popular', true)->get();
 
         return response()->json(compact('items'));
     }

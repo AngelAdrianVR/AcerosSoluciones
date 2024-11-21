@@ -43,14 +43,12 @@
                         <el-input v-model="form.name" placeholder="Escribe el nombre del producto" />
                         <InputError :message="form.errors.name" />
                     </div>
-
                     <div class="mt-3">
                         <InputLabel value="Descripción del producto*" />
-                        <el-input v-model="form.description" maxlength="800" placeholder="Escribe la descripción"
-                            show-word-limit type="textarea" />
+                        <el-input v-model="form.description" maxlength="800" :autosize="{ minRows: 2, maxRows: 6 }"
+                            placeholder="Escribe la descripción" show-word-limit type="textarea" />
                         <InputError :message="form.errors.description" />
                     </div>
-
                     <div class="mt-2">
                         <div class="flex items-center justify-between">
                             <InputLabel value="Categoría*" />
@@ -65,6 +63,9 @@
                                 :value="category.id" />
                         </el-select>
                         <InputError :message="form.errors.category_id" />
+                    </div>
+                    <div class="mt-3">
+                        <el-checkbox v-model="form.is_popular" label="Mostrar en populares" />
                     </div>
                 </div>
             </div>
@@ -120,6 +121,7 @@ export default {
             name: this.product.name,
             description: this.product.description,
             category_id: this.product.category_id,
+            is_popular: !!this.product.is_popular,
             image_cover1: null,
             image_cover2: null,
             image_cover3: null,

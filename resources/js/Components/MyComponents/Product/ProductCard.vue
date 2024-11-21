@@ -1,6 +1,11 @@
 <template>
     <section @click="showDetails" class="rounded-2xl border-2 border-[#D9D9D9] px-3 pt-3 pb-6 h-80 relative group"
         :class="isInLanding ? 'hover:cursor-pointer' : ''">
+        <span v-if="product.is_popular" class="absolute top-2 left-3 text-yellow-500">
+            <el-tooltip placement="top" content="Producto popular">
+                <i class="fa-solid fa-star"></i>
+            </el-tooltip>
+        </span>
         <!-- Botones de acción -->
         <div v-if="$page.props.auth?.user?.id"
             class="absolute top-2 right-2 flex items-center justify-end space-x-2 opacity-0 group-hover:opacity-100 group-hover:translate-y-2 transition-all duration-300 ease-out">
