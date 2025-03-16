@@ -15,6 +15,13 @@ class ProductController extends Controller
 
         return inertia('Product/Index', compact('products', 'totalProducts'));
     }
+    
+    public function catalog()
+    {   
+        $products = Product::with(['media', 'category:id,name'])->get();
+
+        return inertia('Product/Catalog', compact('products'));
+    }
 
     public function create()
     {
