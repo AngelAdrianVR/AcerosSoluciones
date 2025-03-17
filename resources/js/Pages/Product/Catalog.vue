@@ -23,7 +23,7 @@
     </header>
     <main class="mx-10 mt-6">
         <section v-for="(category, index) in getCategories" :key="category" class="h-min-screen">
-            <h2 class="text-white bg-primary rounded-full px-12 py-1 mt-3">
+            <h2 class="text-white bg-primary rounded-full px-8 py-1 mt-3">
                 {{ category }}
             </h2>
             <div class="divide-y-[1px]">

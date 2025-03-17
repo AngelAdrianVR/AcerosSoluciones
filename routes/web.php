@@ -56,6 +56,7 @@ Route::get('productos/{product}', [LandingController::class, 'show'])->name('lan
 // ---------------------------------------------------------------------
 Route::resource('products', ProductController::class);
 Route::get('catalog', [ProductController::class, 'catalog'])->name('products.catalog');
+Route::get('/descargar-pdf', [ProductController::class, 'downloadPdf'])->name('products.download-catalog');
 Route::get('products-get-popular', [ProductController::class, 'getPopular'])->name('products.get-popular');
 Route::post('products/update-with-media/{product}', [ProductController::class, 'updateWithMedia'])->name('products.update-with-media');
 Route::post('products/get-matches', [ProductController::class, 'getMatches'])->name('products.get-matches');

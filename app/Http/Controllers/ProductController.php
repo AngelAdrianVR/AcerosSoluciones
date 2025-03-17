@@ -5,22 +5,42 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ProductController extends Controller
 {
     public function index()
-    {   
+    {
         $products = Product::with(['media', 'category'])->paginate(30);
         $totalProducts = Product::all()->count();
 
         return inertia('Product/Index', compact('products', 'totalProducts'));
     }
-    
+
     public function catalog()
-    {   
+    {
         $products = Product::with(['media', 'category:id,name'])->get();
 
         return inertia('Product/Catalog', compact('products'));
+    }
+
+    public function downloadPdf()
+    {
+        // Datos de ejemplo (debes reemplazarlos con los datos reales de tu aplicación)
+        $products = Product::with('category', 'media')->get();
+        $categories = $products->pluck('category.name')->unique();
+
+        // Cargar la vista Blade y generar el PDF
+        $pdf = Pdf::loadView('catalog', [
+            'products' => $products,
+            'categories' => $categories,
+        ]);
+
+        // Mostrar el PDF en el navegador
+        // return $pdf->stream('Catalogo_Aceros_Soluciones.pdf');
+
+        // Descargar el PDF
+        return $pdf->download('Catalogo_Aceros_Soluciones.pdf');
     }
 
     public function create()
@@ -65,7 +85,7 @@ class ProductController extends Controller
     }
 
     public function edit(Product $product)
-    {   
+    {
         $product->load('media');
         $categories = Category::all();
 

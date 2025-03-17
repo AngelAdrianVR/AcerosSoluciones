@@ -19,6 +19,7 @@ const isNavbarFixed = ref(true);
 const lastScrollY = ref(0);
 const categories = ref([]);
 const showingNavigationDropdown = ref(false);
+const currentYear = ref(new Date().getFullYear()); // Añade esta línea
 
 // metodos -----------
 const getCategories = async () => {
@@ -256,7 +257,7 @@ html {
                     </div>
                 </section>
                 <section class="hidden mx-16 pt-6 lg:flex items-center justify-between text-xs">
-                    <span>&COPY; 2024. ACERO SOLUCIONES</span>
+                    <span>&COPY; {{ currentYear }}. ACERO SOLUCIONES</span>
                     <p class="flex items-center space-x-2">
                         <a as="button" target="_blank" :href="route('terms.show')" class="underline">Términos y
                             condiciones</a>
@@ -266,7 +267,7 @@ html {
                     </p>
                     <div class="flex items-center space-x-2">
                         <span>Desarrollado por</span>
-                        <a href="https://app.dtw.com.mx" target="_blank">
+                        <a href="https://dtw.com.mx" target="_blank">
                             <figure>
                                 <img src="@/../../public/images/logo_dtw.png"
                                     alt="logo de empresa desarrolladora de paginas web, DTW">
@@ -284,10 +285,10 @@ html {
                         </a>
                     </div>
                     <div class="flex justify-between items-center mt-3">
-                        <span>&COPY; 2024. ACERO SOLUCIONES</span>
+                        <span>&COPY; {{ currentYear }}. ACEROS SOLUCIONES</span>
                         <div class="flex items-center space-x-2">
                             <span>Desarrollado por</span>
-                            <a href="https://app.dtw.com.mx" target="_blank">
+                            <a href="https://dtw.com.mx" target="_blank">
                                 <figure>
                                     <img src="@/../../public/images/logo_dtw.png"
                                         alt="logo de empresa desarrolladora de paginas web, DTW">
