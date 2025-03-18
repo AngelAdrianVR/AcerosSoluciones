@@ -75,6 +75,15 @@ Route::get('/storage-link', function () {
    
     return 'Linked!.';
 });
+
+Route::get('/clean-all-', function () {
+    Artisan::call('cache:clear');
+    Artisan::call('view:clear');
+    Artisan::call('route:clear');
+   
+    return 'cleaned!.';
+});
+
 Route::get('/php-info', function () {
     return phpinfo();
 });
